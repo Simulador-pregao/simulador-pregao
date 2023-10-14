@@ -13,6 +13,13 @@ public class Ativo {
     
 
     public void Ativo(int codigo, float cotacao, boolean liquidacao, Date prazo, Carteira carteira,Bolsa emissor){
-
+        this.codigo = codigo;
+        this.cotacao = cotacao;
+        this.liquidacao = liquidacao;
+        this.prazo = prazo;
+        this.carteira = carteira;
+        this.emissor = emissor;
     } 
+
+    
 }
