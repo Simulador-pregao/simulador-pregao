@@ -45,7 +45,7 @@ public class ListaEncadeada<T> {
     }
     //---------------------------------------------------
 
-    private void adicionar (T novoValor){
+    public void adicionar (T novoValor){
         Elemento<T> novoElemento = new Elemento<T>(novoValor);
         if(this.primeiro == null && this.ultimo == null){
             this.primeiro = novoElemento;
@@ -58,16 +58,27 @@ public class ListaEncadeada<T> {
     }
 
 
-    private void remover (T valorProcurado){
+    public void remover (T valorProcurado){
         Elemento<T> anterior = null;
         Elemento<T> atual = this.primeiro;
 
         for(int i = 0; i <= this.getTamanho(); i++){
             if (atual.getValor().equals(valorProcurado)) {
-                anterior.setProximo(atual.getProximo());
-                atual = null;
+                if (this.tamanho == 1){
+                    this.primeiro = null;
+                    this.ultimo = null;
+                } else if (atual == this.primeiro){
+                    this.primeiro = atual.getProximo();
+                } else if (atual == this.ultimo){
+                    this.ultimo = anterior;
+                } else {
+                    anterior.setProximo(atual.getProximo());
+                    atual = null;
+                }
                 this.tamanho --;
+                break;
             }
+            anterior = atual;
             atual = atual.getProximo();
         }
     }

@@ -1,3 +1,5 @@
+package Miau;
+
 public class Custodia {
     private Investidor retentor;
     private Bolsa custodiante;

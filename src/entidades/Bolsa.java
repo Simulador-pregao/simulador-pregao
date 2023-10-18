@@ -1,3 +1,4 @@
+package Miau;
 public class Bolsa {
     private String nome;
     private String servico;

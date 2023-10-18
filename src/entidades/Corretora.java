@@ -1,3 +1,4 @@
+package Miau;
 public class Corretora {
     private String nome;
     private String servico;
