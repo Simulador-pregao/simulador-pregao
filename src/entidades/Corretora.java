@@ -1,4 +1,5 @@
-package Miau;
+package entidades;
+
 public class Corretora {
     private String nome;
     private String servico;

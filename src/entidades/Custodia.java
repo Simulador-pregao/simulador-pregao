@@ -1,4 +1,4 @@
-package Miau;
+package entidades;
 
 public class Custodia {
     private Investidor retentor;
