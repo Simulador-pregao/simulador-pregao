@@ -15,23 +15,23 @@ public class ListaEncadeada<T> {
             return primeiro;
         }
 
-        public void setPrimeiro(Elemento<T> primeiro) {
-            this.primeiro = primeiro;
-        }
-
     public Elemento<T> getUltimo() {
             return ultimo;
-        }
-
-        public void setUltimo(Elemento<T> ultimo) {
-            this.ultimo = ultimo;
         }
 
     public int getTamanho() {
             return tamanho;
         }
 
-    public void setTamanho(int tamanho) {
+    private void setPrimeiro(Elemento<T> primeiro) {
+        this.primeiro = primeiro;
+    }
+
+    private void setUltimo(Elemento<T> ultimo) {
+        this.ultimo = ultimo;
+    }
+
+    private void setTamanho(int tamanho) {
         this.tamanho = tamanho;
     }
 
@@ -45,7 +45,7 @@ public class ListaEncadeada<T> {
     }
     //---------------------------------------------------
 
-    public void adicionar (T novoValor){
+    public void adicionarFinal (T novoValor){
         Elemento<T> novoElemento = new Elemento<T>(novoValor);
         if(this.primeiro == null && this.ultimo == null){
             this.primeiro = novoElemento;
@@ -57,6 +57,17 @@ public class ListaEncadeada<T> {
         this.tamanho ++;
     }
 
+    public void adicionarComeco (T novoValor){
+        Elemento<T> novoElemento = new Elemento<T>(novoValor);
+        if(this.primeiro == null && this.ultimo == null){
+            this.primeiro = novoElemento;
+            this.ultimo = novoElemento;
+        } else {
+            novoElemento.setProximo(this.primeiro);
+            this.primeiro = novoElemento;
+        }
+        this.tamanho ++;
+    }
 
     public void remover (T valorProcurado){
         Elemento<T> anterior = null;

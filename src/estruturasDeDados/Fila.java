@@ -1,6 +1,6 @@
 package estruturasDeDados;
 
-public class Fila {
+public class Fila<T> {
      //Remove primeiro da fila e adiciona no final
     private ListaEncadeada<T> lista;
 

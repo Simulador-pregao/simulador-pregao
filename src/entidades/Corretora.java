@@ -1,17 +1,17 @@
 package entidades;
 
+import java.math.BigInteger;
+
 public class Corretora {
     private String nome;
-    private String servico;
     private String site;
     private String perfil;
     private String codigo;
-    private int cnpj;
+    private BigInteger cnpj;
     private boolean ativo;
 
-    public Corretora (String nome, String servico, String site, String perfil, String codigo, int cnpj, boolean ativo){
+    public Corretora (String nome, String site, String perfil, String codigo, BigInteger cnpj, boolean ativo){
         this.nome = nome;
-        this.servico = servico;
         this.site = site;
         this.perfil = perfil;
         this.codigo = codigo;
