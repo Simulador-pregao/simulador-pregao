@@ -9,7 +9,7 @@ public class Fila<T> {
     }
 
     public void adicionar (T valor){
-        this.lista.adicionar(valor);
+        this.lista.adicionarFinal(valor);
     }
 
     public void remover (){

@@ -29,6 +29,22 @@ public class Arvore<T extends Comparable> {
     }
     //---------------------------------------------------
 
+    public void getCrescente (Elemento<T> atual){
+        if (atual != null){
+            getCrescente(atual.getEsquerda());
+            System.out.println(atual.getValor());
+            getCrescente(atual.getDireita());
+        }
+    }
+
+    public void getDecrescente (Elemento<T> atual){
+        if( atual != null){
+            getDecrescente(atual.getDireita());
+            System.out.println(atual.getValor());
+            getDecrescente(atual.getEsquerda());
+        }
+    }
+
     public void adicionar (T Valor){
         Elemento<T> novoElemento = new Elemento<T>(Valor);
         if (this.raiz == null){
@@ -135,5 +151,7 @@ public class Arvore<T extends Comparable> {
             return false;
         }
     }
+
+
 
 }

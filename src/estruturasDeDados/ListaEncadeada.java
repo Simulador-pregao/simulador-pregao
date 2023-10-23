@@ -11,6 +11,7 @@ public class ListaEncadeada<T> {
         this.tamanho = 0;
     } 
 
+    //gets
     public Elemento<T> getPrimeiro() {
             return primeiro;
         }
@@ -23,6 +24,16 @@ public class ListaEncadeada<T> {
             return tamanho;
         }
 
+    public Elemento<T> get(int posicao){
+        Elemento<T> atual = this.primeiro;
+        for(int i = 0; i < posicao; i++){
+            if(atual.getProximo() != null)
+                atual = atual.getProximo();
+        }
+        return atual;
+    }
+
+    //sets
     private void setPrimeiro(Elemento<T> primeiro) {
         this.primeiro = primeiro;
     }
@@ -35,14 +46,6 @@ public class ListaEncadeada<T> {
         this.tamanho = tamanho;
     }
 
-    public Elemento<T> get(int posicao){
-        Elemento<T> atual = this.primeiro;
-        for(int i = 0; i < posicao; i++){
-            if(atual.getProximo() != null)
-                atual = atual.getProximo();
-        }
-        return atual;
-    }
     //---------------------------------------------------
 
     public void adicionarFinal (T novoValor){

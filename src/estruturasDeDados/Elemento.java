@@ -3,11 +3,13 @@ package estruturasDeDados;
 public class Elemento<T> {
     private T valor;
     private Elemento<T> proximo;
+    private Elemento<T> esquerda;
+    private Elemento<T> direita;
 
     public Elemento(T novoValor){
         this.valor = novoValor;
     }
-
+    
     public T getValor() {
         return valor;
     }
@@ -24,4 +26,19 @@ public class Elemento<T> {
         this.proximo = proximo;
     }
 
+    public Elemento<T> getEsquerda() {
+        return esquerda;
+    }
+
+    public void setEsquerda(Elemento<T> esquerda) {
+        this.esquerda = esquerda;
+    }
+
+    public Elemento<T> getDireita() {
+        return direita;
+    }
+
+    public void setDireita(Elemento<T> direita) {
+        this.direita = direita;
+    }
 }
