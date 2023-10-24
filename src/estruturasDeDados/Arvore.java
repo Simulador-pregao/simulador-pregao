@@ -69,7 +69,7 @@ public class Arvore<T extends Comparable> {
                         break;
                     }
                 } else {
-                    throw new EmptyStackException();
+                    throw new IllegalArgumentException("Esse valor já existe.");
                 }
             }
         } 
@@ -151,7 +151,4 @@ public class Arvore<T extends Comparable> {
             return false;
         }
     }
-
-
-
 }
