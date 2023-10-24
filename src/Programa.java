@@ -21,8 +21,13 @@ public class Programa extends JFrame{
         
         DatabaseManager dbManager = new DatabaseManager();
         ListaEncadeada<Empresa> listaDeEmpresas = dbManager.lerEmpresas();
-        for(int i = 0; i <= listaDeEmpresas.getTamanho(); i++){
-            listaDeEmpresas.get(i);
+        for(int i = 0; i < listaDeEmpresas.getTamanho(); i++){
+            System.out.println("\n");
+            System.out.print(listaDeEmpresas.get(i).getValor().getCnpj() + ";");
+            System.out.print(listaDeEmpresas.get(i).getValor().getNome() + ";");
+            System.out.print(listaDeEmpresas.get(i).getValor().getCodigo() + ";");
+            System.out.print(listaDeEmpresas.get(i).getValor().getPerfil() + ";");
+            System.out.print(listaDeEmpresas.get(i).getValor().getSite() + ";");
         }
     }
 }

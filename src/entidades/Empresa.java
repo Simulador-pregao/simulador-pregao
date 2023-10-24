@@ -9,15 +9,12 @@ public class Empresa {
     private boolean ativo;
     
     public Empresa(String nome, String site, String perfil, String codigo, String cnpj, boolean ativo) {
+        this.cnpj = cnpj;
         this.nome = nome;
         this.site = site;
         this.perfil = perfil;
         this.codigo = codigo;
-        this.cnpj = cnpj;
         this.ativo = ativo;
-    }
-
-    public Empresa() {
     }
 
     public String getNome() {

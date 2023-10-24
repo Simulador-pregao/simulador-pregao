@@ -37,12 +37,7 @@ public class DatabaseManager {
         String linha;
         while ((linha = br.readLine()) != null) {
             String[] parte = linha.split(";");
-            Empresa empresa = new Empresa();
-            empresa.setCnpj(parte[0]);
-            empresa.setNome(parte[1]);
-            empresa.setSite(parte[2]);
-            empresa.setPerfil(parte[3]);
-            empresa.setCodigo(parte[4]);
+            Empresa empresa = new Empresa(parte[0], parte[1], parte[2], parte[3], parte[4], true);
             empresas.adicionarFinal(empresa);
         }
         br.close();
