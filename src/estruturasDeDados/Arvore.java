@@ -7,6 +7,7 @@ public class Arvore<T extends Comparable> {
     private int tamanho;
 
     //---------------------------------------------------
+    
     public void Arvore(){
         this.raiz = null;
         this.tamanho = 0;
@@ -27,6 +28,7 @@ public class Arvore<T extends Comparable> {
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
     }
+
     //---------------------------------------------------
 
     public void getCrescente (Elemento<T> atual){
