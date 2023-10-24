@@ -1,4 +1,4 @@
-## Simulador do pregão - YSM
+## Simulador do pregão - YSM (Acrescentar mais informações)
 
 ## Seja bem-vindo ao repositório destinado ao projeto da disciplina de lógica de programação: LG2, lecionada pelo prof. Ugo Henrique
 
