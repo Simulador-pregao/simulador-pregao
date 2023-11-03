@@ -1,0 +1,10 @@
+Apple Inc.;Tecnologia;Fabricante de produtos eletrônicos;AAPL;123456789;true
+Microsoft Corporation;Tecnologia;Empresa de software e serviços;MSFT;987654321;true
+Amazon.com Inc.;Varejo Online;Empresa de comércio eletrônico;AMZN;543210987;true
+Alphabet Inc.;Tecnologia;Controladora da Google;GOOGL;135792468;true
+Tesla, Inc.;Fabricação de Veículos Elétricos;Fabricante de carros elétricos;TSLA;246813579;true
+Johnson & Johnson;Saúde;Empresa de produtos de saúde;JNJ;987654321;true
+Boeing Co.;Aeroespacial e Defesa;Empresa aeroespacial;BA;654321987;true
+Exxon Mobil Corporation;Energia;Empresa de energia;XOM;123456789;true
+Coca-Cola Company;Bebidas;Empresa de bebidas;KO;987654321;true
+Facebook, Inc.;Tecnologia;Rede social;FB;246813579;true
