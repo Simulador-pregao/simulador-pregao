@@ -7,15 +7,15 @@ public class Ativo {
     private float cotacao;
     private boolean liquidacao;
     private Date prazo;
-    private Bolsa emissor;
+    private Empresa empresa;
 
-     public Ativo(int id, int codigo, float cotacao, boolean liquidacao, Date prazo, Bolsa emissor) {
+     public Ativo(int id, int codigo, float cotacao, boolean liquidacao, Date prazo, Empresa empresa) {
         this.id = id;
         this.codigo = codigo;
         this.cotacao = cotacao;
         this.liquidacao = liquidacao;
         this.prazo = prazo;
-        this.emissor = emissor;
+        this.empresa = empresa;
     }
 
 
@@ -69,13 +69,13 @@ public class Ativo {
     }
 
 
-    public Bolsa getEmissor() {
-        return emissor;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
 
-    public void setEmissor(Bolsa emissor) {
-        this.emissor = emissor;
+    public void setEmissor(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     

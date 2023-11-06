@@ -1,6 +1,8 @@
 package estruturasDeDados;
 import java.util.NoSuchElementException;
 
+import entidades.Cliente;
+
 public class ListaEncadeada<T> {
     private Elemento<T> primeiro;
     private Elemento<T> ultimo;

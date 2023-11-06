@@ -1,5 +1,6 @@
 package entidades;
 public class Bolsa {
+    private int id;
     private String nome;
     private String servico;
     private String site;
@@ -8,7 +9,8 @@ public class Bolsa {
     private int cnpj;
     private boolean ativo;
 
-    public Bolsa (String nome, String servico, String site, String perfil, String codigo, int cnpj, boolean ativo){
+    public Bolsa (int id, String nome, String servico, String site, String perfil, String codigo, int cnpj, boolean ativo){
+        this.id = id;
         this.nome = nome;
         this.servico = servico;
         this.site = site;
@@ -16,6 +18,14 @@ public class Bolsa {
         this.codigo = codigo;
         this.cnpj = cnpj;
         this.ativo = ativo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
      public String getNome() {

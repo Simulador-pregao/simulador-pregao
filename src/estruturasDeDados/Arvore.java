@@ -2,7 +2,7 @@ package estruturasDeDados;
 import java.util.EmptyStackException;
 import javax.swing.text.html.parser.Element;
 
-public class Arvore<T extends Comparable> {
+public class Arvore<T extends Comparable<T>> {
     private Elemento<T> raiz;
     private int tamanho;
 

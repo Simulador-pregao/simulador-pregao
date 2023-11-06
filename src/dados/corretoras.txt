@@ -1,0 +1,10 @@
+1;Interactive Brokers;www.interactivebrokers.com;Corretora de Ações;CRTR1;12345678901234;true
+2;TD Ameritrade;www.tdameritrade.com;Corretora de Investimentos;CRTR2;98765432109876;true
+3;Charles Schwab;www.schwab.com;Corretora de Opções;CRTR3;54321098706543;false
+4;E*TRADE;us.etrade.com;Corretora de Câmbio;CRTR4;98765432101234;true
+5;Vanguard;www.vanguard.com;Corretora de Derivativos;CRTR5;12345678907654;false
+6;Robinhood;www.robinhood.com;Corretora de Fundos;CRTR6;65432109870123;true
+7;IG Group;www.ig.com;Corretora de Mercadorias;CRTR7;12340987654321;true
+8;Fidelity Investments;www.fidelity.com;Corretora de Investimentos;CRTR8;98712345609876;true
+9;XM Group;www.xm.com;Corretora de Câmbio;CRTR9;12309876501234;true
+10;Plus500;www.plus500.com;Corretora de Opções;CRTR10;54398765106543;false
