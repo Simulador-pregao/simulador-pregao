@@ -6,33 +6,16 @@
 
 ------------------------------------------------------------------------------------------------------------------
 
-### Team responsible for the project
-- Mariana Megumi
-- Alice Maria 
+> You will be able to find more information about this organization by opening our README on the initial page.
 
-### About the project
+## FOLDER STRUCTURE:
+1. In the source folder (src), you can find the folders "dados," "entidades," "estruturasDeDados," and "tela."
+- In the "dados" folder, you will find .txt files and a Java file responsible for managing the "database" using the .txt files.
+- In the "entidades" folder, you will find Java files containing the instantiated objects of the respective classes from the .txt files.
+- In the "estruturaDeDados" folder, there are linear data algorithms to help create the project.
+- In the "tela" folder, you can compile the application and fix bugs.
 
-Simulador-pregão, which means "Trading Floor simulator" in Portuguese. This program is designed to simulate an auction or bidding system, allowing users to practice and understand the dynamics of online auctions. The simulator is being created as a learning tool for students and enthusiasts interested in understanding the fundamentals of auction systems.
+2. The "bin" folder contains compiled binary files, executable programs, and other artifacts generated during the software build process.
 
-
-## How to Get Started
-
-- Java Development Kit (JDK) 11 or higher installed.
-1. Clone this repository to your local machine using Visual Studio Code (VSCode), follow these steps::
-   ```shell
-   cd 'folder'
-   git clone https://github.com/your-username/simulador-pregao.git
-   code simulador-pregao/
-   ```
-
-   
-### Compile the project 
-1. We recommend the terminal to compile the class files, you can open the terminal by pressing 'ctrl' + 'shift' + ''' (windows)
-
-
-#### Folder Structure
-- `src`: In the 'src' folder, you will find the main part of the project, consisting of files with data structures, classes etc.
-- `lib`: this folder maintain dependencies of the project.
-
-> Ongoing project
+> project in progress
 
