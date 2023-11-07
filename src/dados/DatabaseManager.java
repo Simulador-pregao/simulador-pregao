@@ -52,7 +52,7 @@ public class DatabaseManager {
         String linha;
         while ((linha = br.readLine()) != null) {
             String[] parte = linha.split(";");
-            Cliente cliente = new Cliente(Integer.parseInt(parte[0]), parte[1], parte[2]);
+            Cliente cliente = new Cliente(Integer.parseInt(parte[0]), parte[1], parte[2], Float.valueOf(parte[4]));
             clientes.adicionarFinal(cliente);
         }
         br.close();

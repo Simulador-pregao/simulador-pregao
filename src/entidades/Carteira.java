@@ -6,27 +6,12 @@ public class Carteira {
     private int id;
     private Cliente cliente;
     private ListaEncadeada<Ativo> listAtivos = new ListaEncadeada<Ativo>();
-    private float saldo;
 
-    public Carteira(int id, Cliente cliente, List<Ativo> listAtivos, float saldo) {
-        this.id =  id;
-        this.cliente = cliente;
-        this.listAtivos = new ListaEncadeada<Ativo>();
-        this.saldo = saldo;
-    }
     public Carteira(int id, Cliente cliente, List<Ativo> listAtivos) {
         this.id =  id;
         this.cliente = cliente;
-        this.listAtivos = new ListaEncadeada<Ativo>();
     }
     
-    public float getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(float saldo) {
-        this.saldo = saldo;
-    }
 
     public Cliente getCliente() {
         return cliente;

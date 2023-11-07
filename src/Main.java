@@ -11,7 +11,7 @@ import entidades.Empresa;
 import estruturasDeDados.Arvore;
 import estruturasDeDados.ListaEncadeada;
 
-public class Programa{
+public class Main{
     public static void main(String[] args) {
         
         DatabaseManager dbManager = new DatabaseManager();
@@ -37,7 +37,7 @@ public class Programa{
 
             switch(opcao){
                 case 1:
-
+                
                     break;
                 case 2:
                     break;
@@ -80,6 +80,26 @@ public class Programa{
                 System.out.println("- Operações -");
                 System.out.println("Comprar ativo[1]     Depositar[2]     Descontar[3]    Encerrar Operações[4]");
                 opcao = sc.nextInt();
+
+                switch(opcao){
+                    case 1:
+
+                        break;
+                    case 2:
+                        System.out.print("Insira o valor que deseja depositar: ");
+                        float valorDepositado = sc.nextFloat();
+                        break;
+                    case 3:
+                        System.out.print("Insira o valor que deseja descontar: ");
+                        float valorDescontado = sc.nextFloat();
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    default:
                 } 
                 return;
             } else {
@@ -87,6 +107,7 @@ public class Programa{
                  return;
             }
         }
+    }
 }
 
     //     DatabaseManager dbManager = new DatabaseManager();
@@ -110,3 +131,4 @@ public class Programa{
     //         System.out.print(clientesList.get(i).getValor().getCpf() + ";");
     //         System.out.print(clientesList.get(i).getValor().getNome() + ";");
     //     }
+    
