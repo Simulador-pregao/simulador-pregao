@@ -1,7 +1,4 @@
 package estruturasDeDados;
-import java.util.NoSuchElementException;
-
-import entidades.Cliente;
 
 public class ListaEncadeada<T> {
     private Elemento<T> primeiro;
@@ -20,11 +17,11 @@ public class ListaEncadeada<T> {
 
     public Elemento<T> getUltimo() {
             return ultimo;
-        }
+    }
 
     public int getTamanho() {
             return tamanho;
-        }
+    }
 
     public Elemento<T> get(int posicao){
         Elemento<T> atual = this.primeiro;

@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 import entidades.Cliente;
 import entidades.Empresa;
+import estruturasDeDados.Arvore;
 import estruturasDeDados.ListaEncadeada;
 
 public class DatabaseManager {
@@ -18,7 +19,8 @@ public class DatabaseManager {
             PrintWriter pw = new PrintWriter(fw);
             pw.print("\n" + cliente.getId() + ";");
             pw.print(cliente.getNome() + ";");
-            pw.print(cliente.getCpf());
+            pw.print(cliente.getCpf() + ";");
+            pw.print(cliente.getSaldo());
             pw.flush();
             pw.close();
             fw.close();
@@ -46,14 +48,14 @@ public class DatabaseManager {
     return empresas;
     }
 
-    public ListaEncadeada<Cliente> lerClientes() {
-    ListaEncadeada<Cliente> clientes = new ListaEncadeada<>();
+    public Arvore<Cliente> lerClientes() {
+    Arvore<Cliente> clientes = new Arvore<>();
     try (BufferedReader br = new BufferedReader((new FileReader("src/dados/clientes.txt")))){
         String linha;
         while ((linha = br.readLine()) != null) {
             String[] parte = linha.split(";");
-            Cliente cliente = new Cliente(Integer.parseInt(parte[0]), parte[1], parte[2], Float.valueOf(parte[4]));
-            clientes.adicionarFinal(cliente);
+            Cliente cliente = new Cliente(Integer.parseInt(parte[0]), parte[1], parte[2], Float.valueOf(parte[3]));
+            clientes.adicionar(cliente);
         }
         br.close();
     } catch (IOException e) {

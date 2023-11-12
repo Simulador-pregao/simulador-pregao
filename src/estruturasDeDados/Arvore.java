@@ -1,6 +1,5 @@
 package estruturasDeDados;
-import java.util.EmptyStackException;
-import javax.swing.text.html.parser.Element;
+import estruturasDeDados.Elemento;
 
 public class Arvore<T extends Comparable<T>> {
     private Elemento<T> raiz;
@@ -47,6 +46,30 @@ public class Arvore<T extends Comparable<T>> {
         }
     }
 
+    public Elemento<T> procurar(Elemento<T> procurado, Elemento<T> raiz) {
+        if (raiz == null)
+            return null;
+    
+        Elemento<T> atual = raiz;
+    
+        if (procurado.getValor().compareTo(atual.getValor()) == 0) {
+            return atual;
+
+        } else if (procurado.getValor().compareTo(atual.getValor())  < 0) {
+            if (atual.getEsquerda() != null && atual.getEsquerda() == procurado) {
+                return atual.getEsquerda();
+            }
+            return procurar(procurado, atual.getEsquerda());
+
+        } else if (procurado.getValor().compareTo(atual.getValor())  > 0) {
+            if (atual.getDireita() != null && atual.getDireita() == procurado) {
+                return atual.getDireita();
+            }
+            return procurar(procurado, atual.getDireita());
+        }
+        throw new IllegalArgumentException("O valor não foi encontrado.");
+    }
+
     public void adicionar (T Valor){
         Elemento<T> novoElemento = new Elemento<T>(Valor);
         if (this.raiz == null){
@@ -54,7 +77,7 @@ public class Arvore<T extends Comparable<T>> {
         } else {
             Elemento<T> atual = this.raiz;
             while(true){
-                if (novoElemento.getValor().compareTo(atual.getValor()) == -1){
+                if (novoElemento.getValor().compareTo(atual.getValor()) < 0){
                     if(atual.getEsquerda() != null){
                         atual = atual.getEsquerda();
                     } else {
@@ -62,7 +85,7 @@ public class Arvore<T extends Comparable<T>> {
                         this.tamanho ++;
                         break;
                     }
-                } else if (novoElemento.getValor().compareTo(atual.getValor()) == 1){
+                } else if (novoElemento.getValor().compareTo(atual.getValor()) > 0){
                     if(atual.getDireita() != null){
                         atual = atual.getDireita();
                     } else {
@@ -83,7 +106,7 @@ public class Arvore<T extends Comparable<T>> {
         while(true) {
             if (atual.getValor().equals(valorProcurado)){
                 break;
-            } else if (valorProcurado.compareTo(atual.getValor()) == -1){ //valor procurado é menor que valor atual
+            } else if (valorProcurado.compareTo(atual.getValor()) < 0){ //valor procurado é menor que valor atual
                 pai = atual;
                 atual = atual.getEsquerda();
             } else {
@@ -103,7 +126,7 @@ public class Arvore<T extends Comparable<T>> {
                 }
 
                 if(pai != null){
-                    if (atual.getValor().compareTo(pai.getValor()) == -1){
+                    if (atual.getValor().compareTo(pai.getValor()) < 0){
                         pai.setEsquerda(substituto);
                     } else {
                         pai.setDireita(substituto);
@@ -121,7 +144,7 @@ public class Arvore<T extends Comparable<T>> {
                 }
 
                 if(pai != null){
-                    if (atual.getValor().compareTo(pai.getValor()) == -1){
+                    if (atual.getValor().compareTo(pai.getValor()) < 0){
                         pai.setEsquerda(substituto);
                     } else {
                         pai.setDireita(substituto);
@@ -130,7 +153,7 @@ public class Arvore<T extends Comparable<T>> {
                     this.raiz = substituto;
                 }
 
-                if(substituto.getValor().compareTo(paiSubstituto.getValor()) == -1){
+                if(substituto.getValor().compareTo(paiSubstituto.getValor()) < 0){
                     paiSubstituto.setEsquerda(null);
                 } else {
                     paiSubstituto.setDireita(null);
@@ -138,7 +161,7 @@ public class Arvore<T extends Comparable<T>> {
 
             } else { // não tem filhos
                 if(pai != null){
-                    if (atual.getValor().compareTo(pai.getValor()) == -1){//atual > paiAtual
+                    if (atual.getValor().compareTo(pai.getValor()) < 0){//atual > paiAtual
                         pai.setEsquerda(null);
                     } else { 
                         pai.setDireita(null);

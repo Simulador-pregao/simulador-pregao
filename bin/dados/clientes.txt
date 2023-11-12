@@ -8,3 +8,5 @@
 8;Simon Rerolle;71626272873;50000
 9;Helena Junqueira;3425217898;34455
 10;Angélica Domenicco;51438956493;65453
+11;Alice Maria;12536478923;0.0
+12;Jujuba ;17283948978;0.0

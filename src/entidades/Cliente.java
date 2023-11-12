@@ -1,12 +1,14 @@
 package entidades;
 
-public class Cliente {
+import estruturasDeDados.Elemento;
+
+public class Cliente implements Comparable<Cliente>{
     private int id;
     private String cpf;
     private String nome;
     private float saldo;
 
-    public Cliente(int id, String cpf, String nome, float saldo) {
+    public Cliente(int id, String nome, String cpf, float saldo) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
@@ -18,6 +20,10 @@ public class Cliente {
             this.cpf = cpf;
             this.nome = nome;
             this.saldo = 0;
+    }
+
+    public Cliente(int id){
+            this.id = id;
     }
 
     public float getSaldo() {
@@ -45,7 +51,13 @@ public class Cliente {
         return cpf;
     }
 
+    public int compareTo(Cliente o) {
+        return Integer.compare(this.id, o.getId());
+    }
+
+    public String toString() {
+        return (this.id + ";" + this.nome + ";" + this.cpf + ";" + this.saldo);
+    }
+      
 }
-
-
 

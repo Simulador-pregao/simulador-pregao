@@ -5,6 +5,15 @@ public class Elemento<T> {
     private Elemento<T> proximo;
     private Elemento<T> esquerda;
     private Elemento<T> direita;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Elemento(T novoValor){
         this.valor = novoValor;

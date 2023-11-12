@@ -1,14 +1,11 @@
-import java.math.BigInteger;
-import java.net.SocketPermission;
 import java.util.Scanner;
 
-import javax.swing.*;
 
 import dados.DatabaseManager;
-import entidades.Ativo;
 import entidades.Cliente;
 import entidades.Empresa;
 import estruturasDeDados.Arvore;
+import estruturasDeDados.Elemento;
 import estruturasDeDados.ListaEncadeada;
 
 public class Main{
@@ -20,7 +17,7 @@ public class Main{
         System.out.println("Simulador de pregão");
         System.out.println("----------------------------------");
         System.out.println("- Qual operação você gostaria de acessar? -");
-        System.out.println("Exibir[1]   Registrar[2]   Minha conta[3]");
+        System.out.println("Exibir[1]   Registrar[2]   Minha conta[3]   Fechar[4]");
         int opcao = sc.nextInt();
         System.out.println("----------------------------------");
 
@@ -40,6 +37,9 @@ public class Main{
                 
                     break;
                 case 2:
+                    Arvore<Cliente> clientes = dbManager.lerClientes();
+                    System.out.println("ID;Nome;CPF;Saldo");
+                    clientes.getCrescente(clientes.getRaiz());
                     break;
                 case 3:
                     break;
@@ -63,19 +63,44 @@ public class Main{
 
             switch(opcao){
                 case 1:
+                    System.out.println("- Cadastrar usuário -");
+                    sc.nextLine();
+                    System.out.print("Nome: \n");
+                    String nome = sc.nextLine();
+                    System.out.print("CPF: ");
+                    String cpf = sc.nextLine();
+                    //cria id
+                    Arvore<Cliente> clientes = dbManager.lerClientes();
+                    Elemento<Cliente> maiorId = clientes.getRaiz();
+                    while (maiorId.getDireita() != null){
+                        maiorId = maiorId.getDireita();
+                    }
+                    int id = maiorId.getValor().getId() + 1;
+
+                    Cliente cliente = new Cliente(id, nome, cpf);
+                    dbManager.gravarCliente(cliente);
+                    System.out.println("Usuário cadastrado com sucesso!");
                     break;
                 default:
             } 
         } else if (opcao == 3) {
             System.out.print("- Insira seu id:  ");
-            int id = sc.nextInt();
+            int idProcurado = sc.nextInt();
+            
+            Arvore<Cliente> clientes = dbManager.lerClientes();
+            Elemento<Cliente> conta = null;
+            try {
+                Elemento<Cliente> elementoClienteProcurado = new Elemento<Cliente>(new Cliente(idProcurado));
+                conta = clientes.procurar(elementoClienteProcurado, clientes.getRaiz());
+            } catch (IllegalArgumentException e){
+                System.out.println("Não foi possível encontrar esse usuário.");
+            }
 
-            Cliente conta = dbManager.lerClientes().get(id - 1).getValor();
             if (conta != null) {
                 System.out.println("Bem vindo!");
-                System.out.println("ID: " + conta.getId());
-                System.out.println("Nome: " + conta.getNome());
-                System.out.println("CPF: " + conta.getCpf());
+                System.out.println("ID: " + conta.getValor().getId());
+                System.out.println("Nome: " + conta.getValor().getNome());
+                System.out.println("CPF: " + conta.getValor().getCpf());
                 System.out.println("----------------------------------");
                 System.out.println("- Operações -");
                 System.out.println("Comprar ativo[1]     Depositar[2]     Descontar[3]    Encerrar Operações[4]");
@@ -95,19 +120,17 @@ public class Main{
                         break;
                     case 4:
                         break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
                     default:
                 } 
                 return;
+            } else if (opcao == 4) {
             } else {
                 System.out.println("Não foi possível encontrar esse id registrado.");
                  return;
             }
         }
     }
+
 }
 
     //     DatabaseManager dbManager = new DatabaseManager();
