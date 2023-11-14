@@ -93,7 +93,7 @@ public class Ativo implements Comparable <Ativo>{
     }
     
     public int compareTo(Ativo o) {
-        return Integer.compare(this.id, o.getId());
+        return this.codigo.compareTo(o.getCodigo());
     }
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

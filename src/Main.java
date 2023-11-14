@@ -18,6 +18,7 @@ public class Main {
         DatabaseManager dbManager = new DatabaseManager();
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         System.out.println("------------------------------------------------------------");
         System.out.println("Simulador de pregão");
@@ -195,7 +196,6 @@ public class Main {
                                     }
                                     id = maiorId.getValor().getId() + 1;
                                 }
-                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                                 dbManager.gravarHistorico(new Historico(id, ativoComprado, conta, quantidade, ativoComprado.getCotacao(), java.time.LocalDateTime.now()));
                                 
                                 System.out.println("- Compra realizada com sucesso! -");
