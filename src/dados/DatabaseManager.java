@@ -7,18 +7,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import entidades.Cliente; 
 import entidades.Ativo;
 import entidades.Empresa;
+import entidades.Historico;
 import estruturasDeDados.Arvore;
 import estruturasDeDados.Elemento;
 import estruturasDeDados.ListaEncadeada;
 
 public class DatabaseManager {
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
-    public String gravarAtivos(Ativo ativo){
+    public String gravarAtivo(Ativo ativo){
         try {    
             FileWriter fw = new FileWriter("src/dados/ativos.txt", true);
             PrintWriter pw = new PrintWriter(fw);
@@ -40,6 +44,7 @@ public class DatabaseManager {
         }
     }
 
+    
     public Arvore<Ativo> lerAtivos() {
     Arvore<Ativo> ativos = new Arvore<>();
     try (BufferedReader br = new BufferedReader((new FileReader("src/dados/ativos.txt")))){
@@ -141,4 +146,48 @@ public class DatabaseManager {
     return empresas;
     }
 
+
+    public String gravarHistorico(Historico entrada){
+        try {    
+            FileWriter fw = new FileWriter("src/dados/historico.txt", true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print("\n" + entrada.getId() + ";");
+            pw.print(entrada.getAtivo().getCodigo() + ";");
+            pw.print(entrada.getInvestidor().getId() + ";");
+            pw.print(entrada.getOperacao()+ ";");
+            pw.print(entrada.getQuantidade() + ";");
+            pw.print(entrada.getPrecoUnitario() + ";");
+            pw.print(dateTimeFormatter.format(entrada.getDataHora()));
+            pw.flush();
+            pw.close();
+            fw.close();
+            return "Cadastro efetuado com sucesso!";
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+            return "Erro ao gravar entrada no histórico.";
+        }
+    }
+
+    public ListaEncadeada<Historico> lerHistorico() {
+        ListaEncadeada<Historico> historico = new ListaEncadeada<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("src/dados/historico.txt"))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] parte = linha.split(";");
+                
+                Arvore<Ativo> ativos = lerAtivos();
+                Ativo ativo = ativos.procurar(new Elemento<Ativo>(new Ativo(parte[1])), ativos.getRaiz()).getValor();
+
+                Arvore<Cliente> investidores = lerClientes();
+                Elemento<Cliente> investEl = new Elemento<>(new Cliente(Integer.parseInt(parte[2])));
+                Cliente investidor = investidores.procurar(investEl, investidores.getRaiz()).getValor();
+                Historico entrada = new Historico(Integer.parseInt(parte[0]), ativo, investidor, parte[3], Integer.parseInt(parte[4]), Float.parseFloat(parte[5]),  LocalDateTime.parse(parte[6], dateTimeFormatter)); 
+                historico.adicionarFinal(entrada);
+                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return historico;
+    }
 }

@@ -1,7 +1,13 @@
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+
 import dados.DatabaseManager;
 import entidades.Cliente;
+import entidades.Historico;
 import estruturasDeDados.Arvore;
 import estruturasDeDados.Elemento;
 import estruturasDeDados.ListaEncadeada;
@@ -23,75 +29,30 @@ public class Main {
 
         if (opcao == 1) {
             System.out.println("- O que você gostaria de exibir? -");
-            System.out.println("Historico de um ativo [1]");
-            System.out.println("Lista de clientes [2]");
-            System.out.println("Lista de ativos [3]");
-            System.out.println("Lista de empresas [4]");
-            System.out.println("Lista de corretoras [5]");
-            System.out.println("Lista de bolsas[6]");
+            System.out.println("Lista de clientes [1]");
+            System.out.println("Lista de ativos [2]");;
             opcao = sc.nextInt();
             System.out.println("------------------------------------------------------------");
 
             switch (opcao) {
                 case 1:
-                    System.out.print("- Insira o código do ativo desejado: ");
-                    String codigoAtivoExibir = sc.next();
-                    // Lógica para exibir o histórico do ativo com o código informado
-                    // ...
-                    break;
-
-                case 2:
                     Arvore<Cliente> clientesExibir = dbManager.lerClientes();
                     System.out.println("ID;Nome;CPF;Saldo");
                     clientesExibir.getCrescente().forEach(cliente -> System.out.println(cliente.getId() + ";" + cliente.getNome() + ";" + cliente.getCpf() + ";" + cliente.getSaldo()));
                     break;
-
-                case 3:
-                    System.out.println("- Cadastrar ativo -");
-                    sc.nextLine();
-                    System.out.print("Código do ativo: ");
-                    String codigoAtivoCadastrar = sc.nextLine();
-                    // Lógica para cadastrar o ativo com o código informado
-                    // ...
+                case 2:
+                    Arvore<Ativo> ativosExibir = dbManager.lerAtivos();
+                    System.out.println("ID;Codigo;Cotacao;Prazo;Empresa");
+                    ativosExibir.getCrescente().forEach(ativo -> System.out.println(ativo.getId() + ";" + ativo.getCodigo() + ";" + ativo.getCotacao() + ";" + ativo.getPrazo() + ";" + ativo.getEmpresa()));
                     break;
-
-                case 4:
-                    System.out.println("- Cadastrar empresa -");
-                    sc.nextLine();
-                    System.out.print("Nome da empresa: ");
-                    String nomeEmpresa = sc.nextLine();
-                    // Lógica para cadastrar a empresa com o nome informado
-                    // ...
-                    break;
-
-                case 5:
-                    System.out.println("- Cadastrar corretora -");
-                    sc.nextLine();
-                    System.out.print("Nome da corretora: ");
-                    String nomeCorretora = sc.nextLine();
-                    // Lógica para cadastrar a corretora com o nome informado
-                    // ...
-                    break;
-
-                case 6:
-                    System.out.println("- Cadastrar bolsa -");
-                    sc.nextLine();
-                    System.out.print("Nome da bolsa: ");
-                    String nomeBolsa = sc.nextLine();
-                    // Lógica para cadastrar a bolsa com o nome informado
-                    // ...
-                    break;
-
                 default:
+                    System.out.println("Insira um valor correspondente a alguma operação.");
             }
 
         } else if (opcao == 2) {
             System.out.println("- O que você gostaria de registrar? -");
             System.out.println("Cliente [1]");
             System.out.println("Ativo [2]");
-            System.out.println("Empresa [3]");
-            System.out.println("Corretora [4]");
-            System.out.println("Bolsa [5]");
             opcao = sc.nextInt();
 
             switch (opcao) {
@@ -104,17 +65,59 @@ public class Main {
                     String cpf = sc.nextLine();
                     // Cria id
                     Arvore<Cliente> clientesRegistrar = dbManager.lerClientes();
-                    Elemento<Cliente> maiorId = clientesRegistrar.getRaiz();
-                    while (maiorId.getDireita() != null) {
-                        maiorId = maiorId.getDireita();
+                    Elemento<Cliente> maiorIdCliente = clientesRegistrar.getRaiz();
+                    while (maiorIdCliente.getDireita() != null) {
+                        maiorIdCliente = maiorIdCliente.getDireita();
                     }
-                    int id = maiorId.getValor().getId() + 1;
+                    int idCliente = maiorIdCliente.getValor().getId() + 1;
 
-                    Cliente cliente = new Cliente(id, nome, cpf);
+                    Cliente cliente = new Cliente(idCliente, nome, cpf);
                     dbManager.gravarCliente(cliente);
                     System.out.println("Usuário cadastrado com sucesso!");
                     break;
+                case 2:
+                    System.out.println("- Cadastrar ativo -");
+                    sc.nextLine();
+                    System.out.print("Codigo: \n");
+                    String codigo = sc.nextLine();
+                    System.out.print("Cotação: \n");
+                    Float cotacao = sc.nextFloat();
+                    System.out.print("liquidacao [1]Física, [2]Financeira: \n");
+                    int liquidacaoInserida = sc.nextInt();
+                    boolean liquidacao = true;
+                    switch(liquidacaoInserida){
+                        case 1:
+                            liquidacao = true;
+                            break;
+                        case 2:
+                            liquidacao = false;
+                            break;
+                        default:
+                            System.out.println("Insira uma liquidação válida.");
+                    }
+                    System.out.print("Prazo: \n");
+                    Date prazo = null;
+                    try{
+                        prazo = dateFormat.parse(sc.nextLine());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Empresa: ");
+                    String empresaAtivo = sc.next();
+                    //gera id
+                    Arvore<Ativo> ativosRegistrar = dbManager.lerAtivos();
+                    Elemento<Ativo> maiorIdAtivo = ativosRegistrar.getRaiz();
+                    while (maiorIdAtivo.getDireita() != null) {
+                        maiorIdAtivo = maiorIdAtivo.getDireita();
+                    }
+                    int idAtivo = maiorIdAtivo.getValor().getId() + 1;
+
+                    Ativo ativo = new Ativo(idAtivo, codigo, cotacao, liquidacao, prazo, empresaAtivo, true);
+                    dbManager.gravarAtivo(ativo);
+                    break;
                 default:
+                    System.out.println("Insira um valor correspondente a alguma operação.");
             }
         } else if (opcao == 3) {
             System.out.print("- Insira seu id:  ");
@@ -179,6 +182,22 @@ public class Main {
                                 conta.setSaldo(conta.getSaldo() - precoFinal);
                                 conta.getCarteira().adicionar(ativoComprado);
                                 dbManager.atualizarCliente(conta);
+
+                                // Cria id, cria um hsitorico de compra
+                                ListaEncadeada<Historico> historico = dbManager.lerHistorico();
+                                int id = 0;
+                                if(historico.getTamanho() == 0){
+                                    id = 1;
+                                } else {
+                                    Elemento<Historico> maiorId = historico.getPrimeiro();
+                                    while (maiorId.getProximo() != null) {
+                                        maiorId = maiorId.getProximo();
+                                    }
+                                    id = maiorId.getValor().getId() + 1;
+                                }
+                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                dbManager.gravarHistorico(new Historico(id, ativoComprado, conta, quantidade, ativoComprado.getCotacao(), java.time.LocalDateTime.now()));
+                                
                                 System.out.println("- Compra realizada com sucesso! -");
                                 System.out.println("Saldo: " + conta.getSaldo() + "R$");
                             } else {
@@ -212,13 +231,21 @@ public class Main {
                         }
                         break;
                     case 4:
-                        if(conta.getCarteira().getAtivos().getTamanho() == 0) {
-                            System.out.println("Vazia.");
+                        ListaEncadeada<Historico> historico = dbManager.lerHistorico();
+                        System.out.println(historico.get(1).getValor());
+                        if(historico.getTamanho() == 0){
+                            System.out.println("Histórico vazio");
                         } else {
-                            System.out.println("id;codigo;cotacao;liquidacao;prazo;permiteCompra");
-                            conta.getCarteira().getAtivos().getCrescente().forEach(Ativo -> System.out.println(Ativo));
+                            System.out.println("- Minha carteira -");
+                            System.out.println("id;codigo;cliente;operacao;quantiaLotes;valorUnitario;dataHora");
+                            for(int i = 0; i == historico.getTamanho(); i++){
+                                Historico naCarteira = new Historico(conta, "compra");
+                                if (historico.get(i).equals(naCarteira)){
+                                    System.out.println(historico.get(i).getValor());
+                                }
+                            }
                         }
-                        break;
+                            break;
                     case 5:
                         break;
                     default:
@@ -233,193 +260,5 @@ public class Main {
 }
 
 
-//CÓDIGO ANTIGO:
-/*import java.util.Scanner;
 
-import dados.DatabaseManager;
-import entidades.Cliente;
-import entidades.Empresa;
-import estruturasDeDados.Arvore;
-import estruturasDeDados.Elemento;
-import estruturasDeDados.ListaEncadeada;
-
-public class Main{
-    public static void main(String[] args) {
-        
-        DatabaseManager dbManager = new DatabaseManager();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("------------------------------------------------------------");
-        System.out.println("Simulador de pregão");
-        System.out.println("----------------------------------");
-        System.out.println("- Qual operação você gostaria de acessar? -");
-        System.out.println("Exibir[1]   Registrar[2]   Minha conta[3]   Fechar[4]");
-        int opcao = sc.nextInt();
-        System.out.println("------------------------------------------------------------");
-
-        if(opcao == 1){
-            System.out.println("- O que você gostaria de exibir? -");
-            System.out.println("Historico de um ativo [1]");
-            System.out.println("Lista de clientes [2]");
-            System.out.println("Lista de ativos [3]");
-            System.out.println("Lista de empresas [4]");
-            System.out.println("Lista de corretoras [5]");
-            System.out.println("Lista de bolsas[6]");
-            opcao = sc.nextInt();
-            System.out.println("------------------------------------------------------------");
-
-            switch(opcao){
-                case 1:
-                System.out.print("- Insira o código do ativo desejado: ");
-                String codigoAtivo = sc.next();
-                    break;
-
-                    case 1.1:
-    System.out.print("- Insira o código do ativo desejado: ");
-    String codigoAtivo = sc.next();
-    // Lógica para exibir o histórico do ativo com o código informado
-    // ...
-
-    break;
-
-                case 2:
-                    Arvore<Cliente> clientes = dbManager.lerClientes();
-                    System.out.println("ID;Nome;CPF;Saldo");
-                    clientes.getCrescente(clientes.getRaiz());
-                    break;
-
-                case 3:
-            System.out.println("- Cadastrar ativo -");
-            sc.nextLine();
-            System.out.print("Código do ativo: ");
-            String codigoAtivo = sc.nextLine();
-                    break;
-
-                case 4:
-                System.out.println("- Cadastrar empresa -");
-    sc.nextLine();
-    System.out.print("Nome da empresa: ");
-    String nomeEmpresa = sc.nextLine();
-                    break;
-
-                case 5:
-                System.out.println("- Cadastrar corretora -");
-    sc.nextLine();
-    System.out.print("Nome da corretora: ");
-    String nomeCorretora = sc.nextLine();
-                    break;
-
-                case 6:
-                System.out.println("- Cadastrar bolsa -");
-    sc.nextLine();
-    System.out.print("Nome da bolsa: ");
-    String nomeBolsa = sc.nextLine();
-                    break;
-
-                default:
-            }
-
-        } else if (opcao == 2){
-            System.out.println("- O que você gostaria de registrar? -");
-            System.out.println("Cliente [1]");
-            System.out.println("Ativo [2]");
-            System.out.println("Empresa [3]");
-            System.out.println("Corretora [4]");
-            System.out.println("Bolsa [5]");
-            opcao = sc.nextInt();
-
-            switch(opcao){
-                case 1:
-                    System.out.println("- Cadastrar usuário -");
-                    sc.nextLine();
-                    System.out.print("Nome: \n");
-                    String nome = sc.nextLine();
-                    System.out.print("CPF: ");
-                    String cpf = sc.nextLine();
-                    //cria id
-                    Arvore<Cliente> clientes = dbManager.lerClientes();
-                    Elemento<Cliente> maiorId = clientes.getRaiz();
-                    while (maiorId.getDireita() != null){
-                        maiorId = maiorId.getDireita();
-                    }
-                    int id = maiorId.getValor().getId() + 1;
-
-                    Cliente cliente = new Cliente(id, nome, cpf);
-                    dbManager.gravarCliente(cliente);
-                    System.out.println("Usuário cadastrado com sucesso!");
-                    break;
-                default:
-            } 
-        } else if (opcao == 3) {
-            System.out.print("- Insira seu id:  ");
-            int idProcurado = sc.nextInt();
-            
-            Arvore<Cliente> clientes = dbManager.lerClientes();
-            Elemento<Cliente> conta = null;
-            try {
-                Elemento<Cliente> elementoClienteProcurado = new Elemento<Cliente>(new Cliente(idProcurado));
-                conta = clientes.procurar(elementoClienteProcurado, clientes.getRaiz());
-            } catch (IllegalArgumentException e){
-                System.out.println("Não foi possível encontrar esse usuário.");
-            }
-
-            if (conta != null) {
-                System.out.println("Bem vindo!");
-                System.out.println("ID: " + conta.getValor().getId());
-                System.out.println("Nome: " + conta.getValor().getNome());
-                System.out.println("CPF: " + conta.getValor().getCpf());
-                System.out.println("----------------------------------");
-                System.out.println("- Operações -");
-                System.out.println("Comprar ativo[1]     Depositar[2]     Descontar[3]    Encerrar Operações[4]");
-                opcao = sc.nextInt();
-
-                switch(opcao){
-                    case 1:
-
-                        break;
-                    case 2:
-                        System.out.print("Insira o valor que deseja depositar: ");
-                        float valorDepositado = sc.nextFloat();
-                        break;
-                    case 3:
-                        System.out.print("Insira o valor que deseja descontar: ");
-                        float valorDescontado = sc.nextFloat();
-                        break;
-                    case 4:
-                        break;
-                    default:
-                } 
-                return;
-            } else if (opcao == 4) {
-            } else {
-                System.out.println("Não foi possível encontrar esse id registrado.");
-                 return;
-            }
-        }
-    }
-
-}*/
-
-//ESSE CÓDIGO TERMINA AQUI
-
-    //     DatabaseManager dbManager = new DatabaseManager();
-    //     ListaEncadeada<Empresa> empresasList = dbManager.lerEmpresas();
-    //     for(int i = 0; i < empresasList.getTamanho(); i++){
-    //         System.out.print("\n");
-    //         System.out.print(empresasList.get(i).getValor().getCnpj() + ";");
-    //         System.out.print(empresasList.get(i).getValor().getNome() + ";");
-    //         System.out.print(empresasList.get(i).getValor().getCodigo() + ";");
-    //         System.out.print(empresasList.get(i).getValor().getPerfil() + ";");
-    //         System.out.print(empresasList.get(i).getValor().getSite() + ";");
-    //     }
-
-    //     Cliente cl1 = new Cliente (1, "50746467826", "Jujuba Yukina Tamashiro Yorinori");
-    //     Cliente cl2 = new Cliente (2, "26552352856", "Luciana Naomi Tamashiro");
-    //     dbManager.gravarCliente(cl1);
-    //     dbManager.gravarCliente(cl2);
-    //     ListaEncadeada<Cliente> clientesList = dbManager.lerClientes();
-    //     for(int i = 0; i < clientesList.getTamanho(); i++){
-    //         System.out.print("\n");
-    //         System.out.print(clientesList.get(i).getValor().getCpf() + ";");
-    //         System.out.print(clientesList.get(i).getValor().getNome() + ";");
-    //     }
     

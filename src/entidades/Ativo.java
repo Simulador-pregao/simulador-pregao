@@ -21,8 +21,6 @@ public class Ativo implements Comparable <Ativo>{
         this.permiteCompra = permiteCompra;
     }
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     public Ativo(String codigo){
         this.codigo = codigo;
     }
@@ -95,9 +93,10 @@ public class Ativo implements Comparable <Ativo>{
     }
     
     public int compareTo(Ativo o) {
-        return this.codigo.compareTo(o.getCodigo());
+        return Integer.compare(this.id, o.getId());
     }
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public String toString() {
         return (this.id + ";" + this.codigo + ";" + this.cotacao + ";" + this.liquidacao + ";" + this.prazo + ";" + this.permiteCompra);
     }
