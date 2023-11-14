@@ -1,5 +1,7 @@
 package estruturasDeDados;
 
+import java.util.function.Consumer;
+
 public class ListaEncadeada<T> {
     private Elemento<T> primeiro;
     private Elemento<T> ultimo;
@@ -94,6 +96,18 @@ public class ListaEncadeada<T> {
             anterior = atual;
             atual = atual.getProximo();
         }
+    }
+
+    public void forEach(Consumer<T> action) {
+        Elemento<T> atual = this.primeiro;
+
+        while (atual != null) {
+            action.accept(atual.getValor());
+            atual = atual.getProximo();
+        }
+    }
+
+    public void forEach(Object object) {
     }
 
 }

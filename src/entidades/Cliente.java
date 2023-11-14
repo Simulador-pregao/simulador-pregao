@@ -5,6 +5,7 @@ public class Cliente implements Comparable<Cliente>{
     private String cpf;
     private String nome;
     private float saldo;
+    private Carteira carteira = new Carteira();
 
     public Cliente(int id, String nome, String cpf, float saldo) {
         this.id = id;
@@ -45,8 +46,24 @@ public class Cliente implements Comparable<Cliente>{
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getCpf() {
         return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Carteira getCarteira() {
+        return carteira;
+    }
+
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 
     public int compareTo(Cliente o) {

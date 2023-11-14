@@ -30,19 +30,31 @@ public class Arvore<T extends Comparable<T>> {
 
     //---------------------------------------------------
 
-    public void getCrescente (Elemento<T> atual){
+    public ListaEncadeada<T> getCrescente (){
+        ListaEncadeada<T> listaCresc = new ListaEncadeada<>();
+        getCrescente(this.raiz, listaCresc);
+        return listaCresc;
+    }
+
+    public void getCrescente (Elemento<T> atual, ListaEncadeada<T> listaCresc){
         if (atual != null){
-            getCrescente(atual.getEsquerda());
-            System.out.println(atual.getValor());
-            getCrescente(atual.getDireita());
+            getCrescente(atual.getEsquerda(), listaCresc);
+            listaCresc.adicionarFinal(atual.getValor());
+            getCrescente(atual.getDireita(), listaCresc);
         }
     }
 
-    public void getDecrescente (Elemento<T> atual){
-        if( atual != null){
-            getDecrescente(atual.getDireita());
-            System.out.println(atual.getValor());
-            getDecrescente(atual.getEsquerda());
+    public ListaEncadeada<T> getDecrescente(Elemento<T> atual) {
+        ListaEncadeada<T> listaDecresc = new ListaEncadeada<>();
+        getDecrescente(atual, listaDecresc);
+        return listaDecresc;
+    }
+    
+    private void getDecrescente(Elemento<T> atual, ListaEncadeada<T> listaDecresc) {
+        if (atual != null) {
+            getDecrescente(atual.getDireita(), listaDecresc); 
+            listaDecresc.adicionarFinal(atual.getValor());
+            getDecrescente(atual.getEsquerda(), listaDecresc); 
         }
     }
 

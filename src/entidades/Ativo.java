@@ -1,16 +1,17 @@
 package entidades;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Ativo {
+public class Ativo implements Comparable <Ativo>{
     private int id;
-    private int codigo;
+    private String codigo;
     private float cotacao;
     private boolean liquidacao;
     private Date prazo;
     private String empresa;
     private boolean permiteCompra; 
 
-     public Ativo(int id, int codigo, float cotacao, boolean liquidacao, Date prazo, String empresa, boolean permiteCompra) {
+    public Ativo(int id, String codigo, Float cotacao, Boolean liquidacao, Date prazo, String empresa, boolean permiteCompra) {
         this.id = id;
         this.codigo = codigo;
         this.cotacao = cotacao;
@@ -20,6 +21,11 @@ public class Ativo {
         this.permiteCompra = permiteCompra;
     }
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public Ativo(String codigo){
+        this.codigo = codigo;
+    }
 
     public int getId() {
         return id;
@@ -31,12 +37,12 @@ public class Ativo {
     }
 
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -89,10 +95,10 @@ public class Ativo {
     }
     
     public int compareTo(Ativo o) {
-        return Integer.compare(this.codigo, o.getCodigo());
+        return this.codigo.compareTo(o.getCodigo());
     }
 
     public String toString() {
-        return (this.id + ";" + this.codigo + ";" + this.cotacao + ";" + this.liquidacao + ";" + this.prazo + ";" + this.empresa.getNome() + ";" + this.permiteCompra);
+        return (this.id + ";" + this.codigo + ";" + this.cotacao + ";" + this.liquidacao + ";" + this.prazo + ";" + this.permiteCompra);
     }
 }

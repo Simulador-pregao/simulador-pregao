@@ -1,15 +1,18 @@
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import dados.DatabaseManager;
 import entidades.Cliente;
 import estruturasDeDados.Arvore;
 import estruturasDeDados.Elemento;
-import com.example.Ativo;
+import estruturasDeDados.ListaEncadeada;
+import entidades.Ativo;
 
 public class Main {
     public static void main(String[] args) {
-
         DatabaseManager dbManager = new DatabaseManager();
         Scanner sc = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         System.out.println("------------------------------------------------------------");
         System.out.println("Simulador de pregão");
         System.out.println("----------------------------------");
@@ -40,7 +43,7 @@ public class Main {
                 case 2:
                     Arvore<Cliente> clientesExibir = dbManager.lerClientes();
                     System.out.println("ID;Nome;CPF;Saldo");
-                    clientesExibir.getCrescente(clientesExibir.getRaiz());
+                    clientesExibir.getCrescente().forEach(cliente -> System.out.println(cliente.getId() + ";" + cliente.getNome() + ";" + cliente.getCpf() + ";" + cliente.getSaldo()));
                     break;
 
                 case 3:
@@ -115,66 +118,115 @@ public class Main {
             }
         } else if (opcao == 3) {
             System.out.print("- Insira seu id:  ");
+            //procura cliente pelo id
             int idProcurado = sc.nextInt();
-
-            Arvore<Cliente> clientesMinhaConta = dbManager.lerClientes();
-            Elemento<Cliente> conta = null;
+            Arvore<Cliente> clientes = dbManager.lerClientes();
+            Cliente conta = null;
             try {
                 Elemento<Cliente> elementoClienteProcurado = new Elemento<Cliente>(new Cliente(idProcurado));
-                conta = clientesMinhaConta.procurar(elementoClienteProcurado, clientesMinhaConta.getRaiz());
+                conta = clientes.procurar(elementoClienteProcurado, clientes.getRaiz()).getValor();
             } catch (IllegalArgumentException e) {
                 System.out.println("Não foi possível encontrar esse usuário.");
             }
 
             if (conta != null) {
                 System.out.println("Bem vindo!");
-                System.out.println("ID: " + conta.getValor().getId());
-                System.out.println("Nome: " + conta.getValor().getNome());
-                System.out.println("CPF: " + conta.getValor().getCpf());
+                System.out.println("ID: " + conta.getId());
+                System.out.println("Nome: " + conta.getNome());
+                System.out.println("CPF: " + conta.getCpf());
+                System.out.println("Saldo: " + conta.getSaldo());
                 System.out.println("----------------------------------");
                 System.out.println("- Operações -");
-                System.out.println("Comprar ativo[1]     Depositar[2]     Descontar[3]    Encerrar Operações[4]");
+                System.out.println("Comprar ações[1]");
+                System.out.println("Depositar[2]");
+                System.out.println("Descontar[3]");
+                System.out.println("Minha carteira[4]");
+                System.out.println("Encerrar Operações[5]");
                 opcao = sc.nextInt();
 
                 switch (opcao) {
                     case 1:
-                    System.out.print("- Insira o código do ativo que deseja comprar: ");
-                    String codigoAtivoCompra = sc.next();
-                    
-                    // Lógica para verificar se o ativo existe e permitir a compra
-                    // ... onde vc criou
-                    if (Ativo.getPermiteCompra() == true) { 
-                        System.out.print("Insira a quantidade que deseja comprar: ");
-                        int quantidadeCompra = sc.nextInt();
+                        System.out.println("----------------------------------");
+                        System.out.println("- Compra de ativos -");
+                        Arvore<Ativo> ativos = dbManager.lerAtivos();
+
+                        System.out.print("- Insira o código do ativo que deseja comprar: ");
+                        //procura o ativo
+                        Ativo ativoComprado = new Ativo(sc.next().toUpperCase());
+                        try {
+                            ativoComprado = ativos.procurar(new Elemento<Ativo>(ativoComprado), ativos.getRaiz()).getValor();
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Não foi possível encontrar esse ativo.");
+                        }
+
+                        System.out.println("\n - Informações do ativo -");
+                        System.out.println("Empresa: " + ativoComprado.getEmpresa());
+                        if (ativoComprado.isLiquidacao() == true){
+                            System.out.println("Liquidação: " + "física");
+                        } else {
+                            System.out.println("Liquidação: " + "financeira");
+                        }
+                        System.out.println("Cotação do ativo: " + ativoComprado.getCotacao() + "R$");
+                        System.out.println("Prazo: " + dateFormat.format(ativoComprado.getPrazo()));
                         
-                        // Lógica para efetuar a compra do ativo
-                        // ...
-                
-                        System.out.println("Compra realizada com sucesso!");
-                    } else {
-                        System.out.println("Ativo não encontrado ou não é possível comprar.");
-                    }
-                        break;
+                        
+                        if (ativoComprado.isPermiteCompra() == true) { 
+                            System.out.print("- Insira a quantidade de lotes que deseja comprar: ");
+                            int quantidade = sc.nextInt();
+                            
+                            float precoFinal = (ativoComprado.getCotacao() * quantidade);
+                            if(conta.getSaldo() > precoFinal){
+                                conta.setSaldo(conta.getSaldo() - precoFinal);
+                                conta.getCarteira().adicionar(ativoComprado);
+                                dbManager.atualizarCliente(conta);
+                                System.out.println("- Compra realizada com sucesso! -");
+                                System.out.println("Saldo: " + conta.getSaldo() + "R$");
+                            } else {
+                                System.out.println("- Saldo Insuficiente -");
+                            }
+                        } else {
+                            System.out.println("O ativo não está disponível para venda.");
+                        }
+                            break;
                     case 2:
                         System.out.print("Insira o valor que deseja depositar: ");
-                        float valorDepositado = sc.nextFloat();
-                        // Lógica para depositar
+                        float valor = sc.nextFloat();
+                        conta.setSaldo(conta.getSaldo() + valor);
+                        dbManager.atualizarCliente(conta);
+                        System.out.println("- Despósito realizado com sucesso! -");
+                        System.out.println("Valor depositado: " + valor + "R$");
+                        System.out.println("Saldo: " + conta.getSaldo() + "R$");
                         break;
                     case 3:
                         System.out.print("Insira o valor que deseja descontar: ");
-                        float valorDescontado = sc.nextFloat();
-                        // Lógica para descontar
+                        valor = sc.nextFloat();
+                            
+                        if(conta.getSaldo() > valor){ 
+                            conta.setSaldo(conta.getSaldo() - valor);
+                            dbManager.atualizarCliente(conta);
+                            System.out.println("- Desconto realizado com sucesso! -");
+                            System.out.println("Valor descontado: " + valor + "R$");
+                            System.out.println("Saldo: " + conta.getSaldo() + "R$");
+                        } else {
+                            System.out.println("- Saldo Insuficiente -");
+                        }
                         break;
                     case 4:
-                        // Lógica para encerrar operações
+                        if(conta.getCarteira().getAtivos().getTamanho() == 0) {
+                            System.out.println("Vazia.");
+                        } else {
+                            System.out.println("id;codigo;cotacao;liquidacao;prazo;permiteCompra");
+                            conta.getCarteira().getAtivos().getCrescente().forEach(Ativo -> System.out.println(Ativo));
+                        }
+                        break;
+                    case 5:
                         break;
                     default:
+                        System.out.println("Insira um valor correspondente a alguma operação.");
                 }
             } else if (opcao == 4) {
-                // Lógica para fechar
             } else {
-                System.out.println("Não foi possível encontrar esse id registrado.");
-                // Lógica para tratamento de erro
+                System.out.println("Insira um valor correspondente a alguma operação.");
             }
         }
     }

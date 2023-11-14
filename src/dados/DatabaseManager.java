@@ -7,16 +7,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import entidades.Cliente; 
 import entidades.Ativo;
 import entidades.Empresa;
 import estruturasDeDados.Arvore;
+import estruturasDeDados.Elemento;
 import estruturasDeDados.ListaEncadeada;
 
 public class DatabaseManager {
-
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    
     public String gravarAtivos(Ativo ativo){
         try {    
             FileWriter fw = new FileWriter("src/dados/ativos.txt", true);
@@ -35,18 +36,22 @@ public class DatabaseManager {
         } 
         catch (IOException e) {
             e.printStackTrace();
-            return "Erro ao gravar cliente.";
+            return "Erro ao gravar ativo.";
         }
     }
 
-    public Arvore<Ativo> lerAtivo() {
+    public Arvore<Ativo> lerAtivos() {
     Arvore<Ativo> ativos = new Arvore<>();
     try (BufferedReader br = new BufferedReader((new FileReader("src/dados/ativos.txt")))){
         String linha;
         while ((linha = br.readLine()) != null) {
-            String[] parte = linha.split(";");
-            Ativo ativo = new Ativo(Integer.parseInt(parte[0]), parte[1], Float.valueOf(parte[2]), Boolean.valueOf(parte[3]),Date.formatOf(parte[4]), parte[5], Boolean.valueOf(parte[6]));
-            ativos.adicionar(ativo);
+            try{
+                String[] parte = linha.split(";");
+                Ativo ativo = new Ativo(Integer.parseInt(parte[0]), parte[1], Float.valueOf(parte[2]), Boolean.valueOf(parte[3]), this.dateFormatter.parse(parte[4]) , parte[5], Boolean.valueOf(parte[6]));
+                ativos.adicionar(ativo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         br.close();
     } catch (IOException e) {
@@ -55,6 +60,7 @@ public class DatabaseManager {
     return ativos;
     }
 
+    
     public String gravarCliente(Cliente cliente){
         try {    
             FileWriter fw = new FileWriter("src/dados/clientes.txt", true);
@@ -89,6 +95,35 @@ public class DatabaseManager {
     }
     return clientes;
     }
+
+    public Boolean atualizarCliente(Cliente clienteAtualizado) {
+        Arvore<Cliente> clientes = lerClientes();
+        Cliente clienteExistente = clientes.procurar(new Elemento<Cliente>(clienteAtualizado), clientes.getRaiz()).getValor();
+        if (clienteExistente != null) {
+            // Atualizar as informações do cliente
+            clienteExistente.setNome(clienteAtualizado.getNome());
+            clienteExistente.setCpf(clienteAtualizado.getCpf());
+            clienteExistente.setSaldo(clienteAtualizado.getSaldo());
+
+            reescreverClientes(clientes);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private void reescreverClientes(Arvore<Cliente> clientes) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("src/dados/clientes.txt"))) {
+            // Itera sobre os clientes em ordem crescente
+            clientes.getCrescente().forEach(cliente -> {
+                writer.println(cliente.getId() + ";" + cliente.getNome() + ";" + cliente.getCpf() + ";" + cliente.getSaldo());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public ListaEncadeada<Empresa> lerEmpresas() {
     ListaEncadeada<Empresa> empresas = new ListaEncadeada<>();
