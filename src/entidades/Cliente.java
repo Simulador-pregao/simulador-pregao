@@ -1,7 +1,5 @@
 package entidades;
 
-import estruturasDeDados.Elemento;
-
 public class Cliente implements Comparable<Cliente>{
     private int id;
     private String cpf;

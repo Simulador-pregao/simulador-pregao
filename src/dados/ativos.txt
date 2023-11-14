@@ -1,10 +1,10 @@
-1;AAPL;150.00;true;2023-11-30;Apple Inc.
-2;MSFT;300.50;true;2023-12-15;Microsoft Corporation
-3;TSLA;900.25;true;2023-11-25;Tesla, Inc.
-4;GOOGL;2700.75;true;2023-11-28;Alphabet Inc.
-5;FB;340.20;true;2023-11-30;Meta Platforms, Inc. (anteriormente Facebook, Inc.)
-6;JNJ;150.60;true;2023-12-05;Johnson & Johnson
-7;BA;210.30;true;2023-11-25;Boeing Co.
-8;XOM;65.40;true;2023-12-01;Exxon Mobil Corporation
-9;KO;55.75;true;2023-12-10;The Coca-Cola Company
-10;NVDA;300.90;true;2023-11-26;NVIDIA Corporation
+1;AAPL;150.00;true;2023-11-30;Apple Inc.;true
+2;MSFT;300.50;true;2023-12-15;Microsoft Corporation;true
+3;TSLA;900.25;true;2023-11-25;Tesla, Inc.;true
+4;GOOGL;2700.75;true;2023-11-28;Alphabet Inc.;true
+5;FB;340.20;true;2023-11-30;Meta Platforms, Inc. (anteriormente Facebook, Inc.);true
+6;JNJ;150.60;true;2023-12-05;Johnson & Johnson;true
+7;BA;210.30;true;2023-11-25;Boeing Co.;true
+8;XOM;65.40;true;2023-12-01;Exxon Mobil Corporation;true
+9;KO;55.75;true;2023-12-10;The Coca-Cola Company;true
+10;NVDA;300.90;true;2023-11-26;NVIDIA Corporation;true
