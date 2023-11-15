@@ -1,4 +1,4 @@
-## Simulador do pregão - YSM
+## Simulador do pregão - YSM (Acrescentar mais informações)
 
 ------------------------------------------------------------------------------------------------------------------
 
